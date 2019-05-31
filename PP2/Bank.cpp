@@ -1,7 +1,9 @@
 #include "Bank.h"
 
-CBank::CBank()
+CBank::CBank(Primitive primitive)
 {
+    m_primitive = primitive;
+    InitializeCriticalSection(&m_balancaUpdateCriticalSection);
 	m_clients = std::vector<CBankClient>();
 	m_totalBalance = 0;
 }
@@ -18,6 +20,7 @@ CBankClient* CBank::CreateClient()
 
 void CBank::UpdateClientBalance(CBankClient &client, int value)
 {
+    Lock();
 	int totalBalance = GetTotalBalance();
 	std::cout << "Client " << client.GetId() << " initiates reading total balance. Total = " << totalBalance << "." << std::endl;
 	
@@ -35,8 +38,32 @@ void CBank::UpdateClientBalance(CBankClient &client, int value)
 	}
 
 	SetTotalBalance(totalBalance);
+    Unlock();
 }
 
+void CBank::Lock()
+{
+    if (m_primitive == Primitive::CriticalSection)
+    {
+        EnterCriticalSection(&m_balancaUpdateCriticalSection);
+    }
+    else if (m_primitive == Primitive::Mutex)
+    {
+        m_balancaUpdateMutex.lock();
+    }
+}
+
+void CBank::Unlock()
+{
+    if (m_primitive == Primitive::CriticalSection)
+    {
+        LeaveCriticalSection(&m_balancaUpdateCriticalSection);
+    }
+    else if (m_primitive == Primitive::Mutex)
+    {
+        m_balancaUpdateMutex.unlock();
+    }
+}
 
 int CBank::GetTotalBalance()
 {

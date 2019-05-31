@@ -48,7 +48,8 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-	CBank* bank = new CBank();
+    auto primitive = static_cast<Primitive>(primitiveType);
+	CBank* bank = new CBank(primitive);
     CreateClient(bank, clientCount);
 
     WaitInputExitCommand(std::cin);
