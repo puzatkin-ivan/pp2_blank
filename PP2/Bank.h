@@ -10,12 +10,13 @@ public:
 	CBank();
 	CBankClient* CreateClient();
 	void UpdateClientBalance(CBankClient& client, int value);
+    int GetTotalBalance();
+    std::vector<CBankClient> GetClients();
 
 private:
 	std::vector<CBankClient> m_clients;
 	int m_totalBalance;
 
-	int GetTotalBalance();
 	void SetTotalBalance(int value);
 	void SomeLongOperations();
 };

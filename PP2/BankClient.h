@@ -7,6 +7,7 @@ class CBankClient
 {
 public:
 	unsigned GetId();
+    int GetBalance() { return 1; }
 
 private:
 	CBankClient(CBank *bank, unsigned id);

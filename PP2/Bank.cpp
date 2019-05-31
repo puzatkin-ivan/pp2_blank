@@ -51,5 +51,10 @@ void CBank::SetTotalBalance(int value)
 
 void CBank::SomeLongOperations()
 {
-	// TODO
+    Sleep(1000);
+}
+
+std::vector<CBankClient> CBank::GetClients()
+{
+    return m_clients;
 }
