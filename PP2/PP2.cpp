@@ -21,6 +21,12 @@ void WaitInputExitCommand(std::istream& stream);
 
 int main(int argc, char* argv[])
 {
+    if (argc == 2 && argv[1] == "/?")
+    {
+        ShowInstructions(std::cout);
+        return 0;
+    }
+
     int clientCount = DEFAULT_CLIENT_COUNT;
     if (argc >= 2)
     {
@@ -75,7 +81,7 @@ void ShowStatisticsByBalance(CBank* bank)
     {
         totalClientBalance += client.GetBalance();
         std::cout << "- " << "Client " << client.GetId()
-            << "balance : " << client.GetBalance() << std::endl;
+            << " balance : " << client.GetBalance() << std::endl;
     }
 
     std::cout << "Total client balance: " << totalClientBalance << std::endl;
